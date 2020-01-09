@@ -305,9 +305,17 @@ class QCOutput(MSONable):
                 "key": r"(?i)\s*job(?:_)*type\s*(?:=)*\s*force"
             },
             terminate_on_match=True).get("key")
-        if self.data.get("force", []):
+        if self.data.get("force_job", []):
             self._read_force_data()
 
+        #If EDA job, parse fragment energies    
+        self.data["eda_job"] = read_pattern(
+            self.text, {
+                "key": r"(?i)\s*job(?:_)*type\s*(?:=)*\s*eda"
+            },
+            terminate_on_match=True).get("key")
+        if self.data.get("eda_job", []):
+            self._parse_eda_energies()
         # If the calculation did not finish and no errors have been identified yet, check for other errors
         if not self.data.get('completion',
                              []) and self.data.get("errors") == []:
@@ -1149,6 +1157,28 @@ class QCOutput(MSONable):
                     self.data["errors"] += ["SCF_failed_to_converge"]
         if self.data.get("errors") == []:
             self.data["errors"] += ["unknown_error"]
+
+    def _parse_eda_energies(self):
+        """
+        Parses individual fragment energy components from EDA jobs
+        """
+        temp_dict = read_pattern(
+                self.text, {
+                    "E_prp":r"\s+E_prp\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_frz":r"\s+E_frz\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_pol":r"\s+E_pol\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_vct":r"\s+E_vct\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_int":r"\s+E_int\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_elec":r"\s+E_elec\s+\(ELEC\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_pauli":r"\s+E_pauli\s+\(ELEC\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_disp":r"\s+E_disp\s+\(ELEC\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)"
+                },
+        )
+        self.data["EDA_data"] = {}
+        for key in temp_dict:
+            self.data["EDA_data"][key]=float(temp_dict.get(key)[0][0])
+            
+ 
 
     def as_dict(self):
         d = {}
