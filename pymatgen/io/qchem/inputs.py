@@ -45,13 +45,13 @@ class QCInput(MSONable):
     """
 
     def __init__(self, molecule, rem, opt=None, pcm=None, solvent=None, smx=None):
-        self.molecule = molecule
+        self.molecule = molecule #Or a list of fragments if doing eda
         self.rem = lower_and_check_unique(rem)
         self.opt = opt
         self.pcm = lower_and_check_unique(pcm)
         self.solvent = lower_and_check_unique(solvent)
         self.smx = lower_and_check_unique(smx)
-
+        self.eda_job = False
         # Make sure molecule is valid: either the string "read" or a pymatgen molecule object
 
         if isinstance(self.molecule, str):
@@ -59,9 +59,12 @@ class QCInput(MSONable):
             if self.molecule != "read":
                 raise ValueError(
                     'The only acceptable text value for molecule is "read"')
+        elif isinstance(self.molecule,list):
+            if isinstance(self.molecule[0],Molecule) and isinstance(self.molecule[1],Molecule):
+                self.eda_job = True
         elif not isinstance(self.molecule, Molecule):
             raise ValueError(
-                "The molecule must either be the string 'read' or be a pymatgen Molecule object"
+                "The molecule must either be the string 'read', a pymatgen Molecule object, or a list of Molecules for EDA"
             )
 
         # Make sure rem is valid:
@@ -70,7 +73,7 @@ class QCInput(MSONable):
         #   - Has a valid job_type or jobtype
 
         valid_job_types = [
-            "opt", "optimization", "sp", "freq", "frequency", "force", "nmr"
+            "opt", "optimization", "sp", "freq", "frequency", "force", "nmr", "eda"
         ]
 
         if "basis" not in self.rem:
@@ -97,7 +100,10 @@ class QCInput(MSONable):
     def __str__(self):
         combined_list = []
         # molecule section
-        combined_list.append(self.molecule_template(self.molecule))
+        if self.eda_job:
+            combined_list.append(self.molecule_template_eda(self.molecule))
+        else: 
+            combined_list.append(self.molecule_template(self.molecule))
         combined_list.append("")
         # rem section
         combined_list.append(self.rem_template(self.rem))
@@ -188,6 +194,29 @@ class QCInput(MSONable):
                 charge=int(molecule.charge),
                 spin_mult=molecule.spin_multiplicity))
             for site in molecule.sites:
+                mol_list.append(
+                    " {atom}     {x: .10f}     {y: .10f}     {z: .10f}".format(
+                        atom=site.species_string, x=site.x, y=site.y,
+                        z=site.z))
+        mol_list.append("$end")
+        return '\n'.join(mol_list)
+    
+    @staticmethod
+    def molecule_template_eda(molecule):
+        # todo: add ghost atoms
+        mol_list = []
+        mol_list.append("$molecule")
+        total_charge = sum([int(i.charge-1) for i in molecule]) #correction from missing electron
+        total_spin = max([int(i.spin_multiplicity) for i in molecule])
+        mol_list.append("{charge} {spin_mult}".format(
+            charge=total_charge,
+            spin_mult=total_spin))
+        for i in molecule:
+            mol_list.append("--")
+            mol_list.append(" {charge} {spin_mult}".format(
+                charge=int(i.charge - 1), #correction from missing electron
+                spin_mult=i.spin_multiplicity))
+            for site in i.sites:
                 mol_list.append(
                     " {atom}     {x: .10f}     {y: .10f}     {z: .10f}".format(
                         atom=site.species_string, x=site.x, y=site.y,
