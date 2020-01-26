@@ -206,7 +206,7 @@ class QCInput(MSONable):
         # todo: add ghost atoms
         mol_list = []
         mol_list.append("$molecule")
-        total_charge = sum([int(i.charge-1) for i in molecule]) #correction from missing electron
+        total_charge = sum([int(i.charge) for i in molecule]) #correction from missing electron
         total_spin = max([int(i.spin_multiplicity) for i in molecule])
         mol_list.append("{charge} {spin_mult}".format(
             charge=total_charge,
@@ -214,7 +214,7 @@ class QCInput(MSONable):
         for i in molecule:
             mol_list.append("--")
             mol_list.append(" {charge} {spin_mult}".format(
-                charge=int(i.charge - 1), #correction from missing electron
+                charge=int(i.charge), #correction from missing electron
                 spin_mult=i.spin_multiplicity))
             for site in i.sites:
                 mol_list.append(
