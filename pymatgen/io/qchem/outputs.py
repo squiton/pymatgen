@@ -1170,8 +1170,8 @@ class QCOutput(MSONable):
                     "E_vct":r"\s+E_vct\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
                     "E_int":r"\s+E_int\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
                     "E_elec":r"\s+E_elec\s+\(ELEC\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
-                    "E_pauli":r"\s+E_pauli\s+\(ELEC\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
-                    "E_disp":r"\s+E_disp\s+\(ELEC\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)"
+                    "E_pauli":r"\s+E_pauli\s+\(PAULI\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_disp":r"\s+E_disp\s+\(DISP\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)"
                 },
         )
         self.data["EDA_data"] = {}
