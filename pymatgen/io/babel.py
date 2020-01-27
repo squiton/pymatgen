@@ -73,7 +73,6 @@ class BabelMolAdaptor:
             obmol.SetTotalCharge(int(mol.charge))
             obmol.Center()
             #obmol.Kekulize()
-            OBKekulize(obmol)
             obmol.EndModify()
             self._obmol = obmol
         elif isinstance(mol, ob.OBMol):
