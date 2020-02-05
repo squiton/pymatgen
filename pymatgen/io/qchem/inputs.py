@@ -207,7 +207,7 @@ class QCInput(MSONable):
         mol_list = []
         mol_list.append("$molecule")
         total_charge = sum([int(i.charge) for i in molecule]) #correction from missing electron
-        unpaired = sum([(int(i.spin_multiplicity)-1) for i in molecule] 
+        unpaired = sum([(int(i.spin_multiplicity)-1) for i in molecule]) 
         if unpaired == 1:
             total_spin =2
         elif unpaired == 0:
