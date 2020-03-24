@@ -320,7 +320,7 @@ class QCInput(MSONable):
             "frag_mult": r"\s*\-\-\s*\n\s*(?:\-)*\d+\s*(\d+)",
         }
         matches = read_pattern(string, patterns)
-        print(matches)
+        raise Exception(str(matches))
         if "read" in matches.keys():
             return "read"
         if "charge" in matches.keys():
