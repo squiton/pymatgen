@@ -128,6 +128,9 @@ class QCInput(MSONable):
         if self.smx:
             combined_list.append(self.smx_template(self.smx))
             combined_list.append("")
+        if self.rem_frgm:
+            combined_list.append(self.rem_frgm_template(self.rem_frgm))
+            combined_list.append("")
         return '\n'.join(combined_list)
 
     @staticmethod
@@ -247,6 +250,15 @@ class QCInput(MSONable):
         rem_list = []
         rem_list.append("$rem")
         for key, value in rem.items():
+            rem_list.append("   {key} = {value}".format(key=key, value=value))
+        rem_list.append("$end")
+        return '\n'.join(rem_list)
+    
+    @staticmethod
+    def rem_frgm_template(rem_frgm):
+        rem_list = []
+        rem_list.append("$rem_frgm")
+        for key, value in rem_frgm.items():
             rem_list.append("   {key} = {value}".format(key=key, value=value))
         rem_list.append("$end")
         return '\n'.join(rem_list)
@@ -395,7 +407,6 @@ class QCInput(MSONable):
                 coords=coords,
                 charge=charge,
                 spin_multiplicity=spin_mult)
-        print('finished parsing molecule')
         return mol
 
     @staticmethod
