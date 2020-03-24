@@ -328,10 +328,10 @@ class QCInput(MSONable):
         if "spin_mult" in matches.keys():
             spin_mult = int(matches["spin_mult"][0][0])
         if "frag_charge" in matches.keys():
-            frag_charges = [int(n) for n in matches["frag_charge"][:][0]]
+            frag_charges = [int(matches["frag_charge"][n][0]) for n in range(2)]
         if "frag_mult" in matches.keys():
-            frag_mults = [int(n) for n in matches["frag_mult"][:][0]]
-        raise Exception(str(frag_mults) + str(frag_charges))
+            frag_mults = [int(matches["frag_mult"][n][0]) for n in range(2)]
+        #raise Exception(str(frag_mults) + str(frag_charges))
         if "frag_charge" in matches.keys() and "frag_mult" in matches.keys(): #Parse eda format first
             #First molecule
             header = r"^\s*\$molecule\n\s*(?:\-)*\d+\s*\d\n\s*\-\-\s*\n\s*(?:\-)*\d+\s*\d"
@@ -345,7 +345,7 @@ class QCInput(MSONable):
             species = [val[0] for val in mol_table[0]]
             coords = [[float(val[1]), float(val[2]),
                     float(val[3])] for val in mol_table[0]]
-            mol=[]
+            mol = []
             mol[0] = Molecule(
                 species=species,
                 coords=coords,
