@@ -88,7 +88,6 @@ def read_table_pattern(text_str,
     tables = []
     
     for mt in table_pattern.finditer(text_str):
-        print(mt)
         table_body_text = mt.group("table_body")
         table_contents = []
         for ml in rp.finditer(table_body_text):
