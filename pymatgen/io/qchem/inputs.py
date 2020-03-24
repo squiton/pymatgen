@@ -141,6 +141,7 @@ class QCInput(MSONable):
         sections = cls.find_sections(string)
         molecule = cls.read_molecule(string)
         rem = cls.read_rem(string)
+        print('finished rem')
         # only molecule and rem are necessary everything else is checked
         opt = None
         pcm = None
@@ -157,6 +158,7 @@ class QCInput(MSONable):
             smx = cls.read_smx(string)
         if "rem_frgm" in sections:
             rem_frgm = cls.read_rem_frgm(string)
+        print('finished rem_frg')
         return cls(molecule, rem, opt=opt, pcm=pcm, solvent=solvent, smx=smx, rem_frgm=rem_frgm)
 
     def write_file(self, filename):
@@ -387,6 +389,7 @@ class QCInput(MSONable):
                 coords=coords,
                 charge=charge,
                 spin_multiplicity=spin_mult)
+        print('finished parsing molecule')
         return mol
 
     @staticmethod
