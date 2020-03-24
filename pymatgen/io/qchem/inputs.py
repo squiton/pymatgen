@@ -316,10 +316,11 @@ class QCInput(MSONable):
             "read": r"^\s*\$molecule\n\s*(read)",
             "charge": r"^\s*\$molecule\n\s*((?:\-)*\d+)\s+\d+",
             "spin_mult": r"^\s*\$molecule\n\s(?:\-)*\d+\s+(\d+)",
-            "frag_charge": r"^\s*\-\-\s*\n\s*((?:\-)*\d+)\s+\d+",
-            "frag_mult": r"^\s*\-\-\s*\n\s*(?:\-)*\d+\s*(\d+)",
+            "frag_charge": r"\s*\-\-\s*\n\s*((?:\-)*\d+)\s+\d+",
+            "frag_mult": r"\s*\-\-\s*\n\s*(?:\-)*\d+\s*(\d+)",
         }
         matches = read_pattern(string, patterns)
+        print(matches)
         if "read" in matches.keys():
             return "read"
         if "charge" in matches.keys():
