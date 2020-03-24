@@ -325,7 +325,7 @@ class QCInput(MSONable):
         if "spin_mult" in matches.keys():
             spin_mult = int(matches["spin_mult"][0][0])
         header = r"^\s*\$molecule\n\s*(?:\-)*\d+\s*\d"
-        row = r"\s*((?i)[a-z]+)\s+([\d\-\.]+)\s+([\d\-\.]+)\s+([\d\-\.]+)"
+        row = r"\s*([A-Za-z]+)\s+([\d\-\.]+)\s+([\d\-\.]+)\s+([\d\-\.]+)"
         footer = r"^\$end"
         mol_table = read_table_pattern(
             string,
