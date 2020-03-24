@@ -53,6 +53,7 @@ class QCInput(MSONable):
         self.smx = lower_and_check_unique(smx)
         self.rem_frgm = lower_and_check_unique(rem_frgm)
         self.eda_job = False
+        self.bonded_eda = False
         # Make sure molecule is valid: either the string "read" or a pymatgen molecule object
 
         if isinstance(self.molecule, str):
@@ -63,10 +64,13 @@ class QCInput(MSONable):
         elif isinstance(self.molecule,list):
             if isinstance(self.molecule[0],Molecule) and isinstance(self.molecule[1],Molecule):
                 self.eda_job = True
+                if rem['EDA2'] == '1':
+                    self.bonded_eda = True
         elif not isinstance(self.molecule, Molecule):
             raise ValueError(
                 "The molecule must either be the string 'read', a pymatgen Molecule object, or a list of Molecules for EDA"
             )
+        
 
         # Make sure rem is valid:
         #   - Has a basis
@@ -141,7 +145,7 @@ class QCInput(MSONable):
         sections = cls.find_sections(string)
         molecule = cls.read_molecule(string)
         rem = cls.read_rem(string)
-        print('finished rem')
+
         # only molecule and rem are necessary everything else is checked
         opt = None
         pcm = None
@@ -158,7 +162,7 @@ class QCInput(MSONable):
             smx = cls.read_smx(string)
         if "rem_frgm" in sections:
             rem_frgm = cls.read_rem_frgm(string)
-        print('finished rem_frg')
+
         return cls(molecule, rem, opt=opt, pcm=pcm, solvent=solvent, smx=smx, rem_frgm=rem_frgm)
 
     def write_file(self, filename):
@@ -218,7 +222,9 @@ class QCInput(MSONable):
             total_spin =2
         elif unpaired == 0:
             total_spin =1
-        else:
+        elif self.bonded_eda:
+            total_spin = unpaired + 1
+        else
             total_spin = (unpaired -2)+1
         mol_list.append("{charge} {spin_mult}".format(
             charge=total_charge,
