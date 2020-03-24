@@ -106,7 +106,7 @@ class QCInput(MSONable):
         combined_list = []
         # molecule section
         if self.eda_job:
-            combined_list.append(self.molecule_template_eda(self.molecule))
+            combined_list.append(self.molecule_template_eda(self.molecule,self.bonded_eda))
         else: 
             combined_list.append(self.molecule_template(self.molecule))
         combined_list.append("")
@@ -212,7 +212,7 @@ class QCInput(MSONable):
         return '\n'.join(mol_list)
     
     @staticmethod
-    def molecule_template_eda(molecule):
+    def molecule_template_eda(molecule,bonded_eda):
         # todo: add ghost atoms
         mol_list = []
         mol_list.append("$molecule")
@@ -222,7 +222,7 @@ class QCInput(MSONable):
             total_spin =2
         elif unpaired == 0:
             total_spin =1
-        elif self.bonded_eda:
+        elif bonded_eda:
             total_spin = unpaired + 1
         else:
             total_spin = (unpaired -2)+1
