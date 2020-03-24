@@ -224,7 +224,7 @@ class QCInput(MSONable):
             total_spin =1
         elif self.bonded_eda:
             total_spin = unpaired + 1
-        else
+        else:
             total_spin = (unpaired -2)+1
         mol_list.append("{charge} {spin_mult}".format(
             charge=total_charge,
