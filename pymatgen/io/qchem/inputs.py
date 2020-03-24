@@ -44,13 +44,14 @@ class QCInput(MSONable):
             Ex. opt = {"CONSTRAINT": ["tors 2 3 4 5 25.0", "tors 2 5 7 9 80.0"], "FIXED": ["2 XY"]}
     """
 
-    def __init__(self, molecule, rem, opt=None, pcm=None, solvent=None, smx=None):
+    def __init__(self, molecule, rem, opt=None, pcm=None, solvent=None, smx=None, rem_frgm=None):
         self.molecule = molecule #Or a list of fragments if doing eda
         self.rem = lower_and_check_unique(rem)
         self.opt = opt
         self.pcm = lower_and_check_unique(pcm)
         self.solvent = lower_and_check_unique(solvent)
         self.smx = lower_and_check_unique(smx)
+        self.rem_frgm = lower_and_check_unique(rem_frgm)
         self.eda_job = False
         # Make sure molecule is valid: either the string "read" or a pymatgen molecule object
 
@@ -145,6 +146,7 @@ class QCInput(MSONable):
         pcm = None
         solvent = None
         smx = None
+        rem_frgm = None
         if "opt" in sections:
             opt = cls.read_opt(string)
         if "pcm" in sections:
@@ -153,7 +155,9 @@ class QCInput(MSONable):
             solvent = cls.read_solvent(string)
         if "smx" in sections:
             smx = cls.read_smx(string)
-        return cls(molecule, rem, opt=opt, pcm=pcm, solvent=solvent, smx=smx)
+        if "rem_frgm" in sections:
+            rem_frgm = cls.read_rem_frgm(string)
+        return cls(molecule, rem, opt=opt, pcm=pcm, solvent=solvent, smx=smx, rem_frgm=rem_frgm)
 
     def write_file(self, filename):
         with zopen(filename, 'wt') as f:
@@ -397,6 +401,19 @@ class QCInput(MSONable):
             footer_pattern=footer)
         rem = {key: val for key, val in rem_table[0]}
         return rem
+
+    @staticmethod
+    def read_rem_frgm(string):
+        header = r"^\s*\$rem_frgm"
+        row = r"\s*([a-zA-Z\_]+)\s*=?\s*(\S+)"
+        footer = r"^\s*\$end"
+        rem_table = read_table_pattern(
+            string,
+            header_pattern=header,
+            row_pattern=row,
+            footer_pattern=footer)
+        rem_frgm = {key: val for key, val in rem_table[0]}
+        return rem_frgm
 
     @staticmethod
     def read_opt(string):
