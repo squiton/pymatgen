@@ -331,7 +331,7 @@ class QCInput(MSONable):
             frag_charges = [int(n) for n in matches["frag_charge"][:][0]]
         if "frag_mult" in matches.keys():
             frag_mults = [int(n) for n in matches["frag_mult"][:][0]]
-        raise Exception(str(frag_mults) + str(frag_charges)
+        raise Exception(str(frag_mults) + str(frag_charges))
         if "frag_charge" in matches.keys() and "frag_mult" in matches.keys(): #Parse eda format first
             #First molecule
             header = r"^\s*\$molecule\n\s*(?:\-)*\d+\s*\d\n\s*\-\-\s*\n\s*(?:\-)*\d+\s*\d"
