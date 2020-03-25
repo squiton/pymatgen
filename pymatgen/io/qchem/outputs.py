@@ -1176,7 +1176,9 @@ class QCOutput(MSONable):
                     "E_disp":r"\s+E_disp\s+\(DISP\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)"
                 },
         )
-        if temp_dict["E_prp"][0][0] == None: #If doing bonded eda
+        try:
+            test = temp_dict["E_prp"][0][0]
+        except: #If doing bonded eda
             temp_dict = read_pattern(
                     self.text, {
                         "E_prp":r"\s+E_preparation_energy\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
