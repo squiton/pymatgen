@@ -63,7 +63,7 @@ class QCInput(MSONable):
         elif isinstance(self.molecule,list):
             if isinstance(self.molecule[0],Molecule) and isinstance(self.molecule[1],Molecule):
                 self.eda_job = True
-                if !(self.rem['eda2'] == '0' or 'eda2' not in self.rem.keys()):
+                if not (self.rem['eda2'] == '0' or 'eda2' not in self.rem.keys()):
                     self.bonded_eda = True
         elif not isinstance(self.molecule, Molecule):
             raise ValueError(
