@@ -55,7 +55,6 @@ class QCInput(MSONable):
         self.eda_job = False
         self.bonded_eda = False
         # Make sure molecule is valid: either the string "read" or a pymatgen molecule object
-
         if isinstance(self.molecule, str):
             self.molecule = self.molecule.lower()
             if self.molecule != "read":
@@ -64,7 +63,7 @@ class QCInput(MSONable):
         elif isinstance(self.molecule,list):
             if isinstance(self.molecule[0],Molecule) and isinstance(self.molecule[1],Molecule):
                 self.eda_job = True
-                if rem['eda2'] == '1':
+                if !(self.rem['eda2'] == '0' or 'eda2' not in self.rem.keys()):
                     self.bonded_eda = True
         elif not isinstance(self.molecule, Molecule):
             raise ValueError(
