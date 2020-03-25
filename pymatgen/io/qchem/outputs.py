@@ -311,9 +311,11 @@ class QCOutput(MSONable):
         #If EDA job, parse fragment energies    
         self.data["eda_job"] = read_pattern(
             self.text, {
-                "key": r"(?i)\s*job(?:_)*type\s*(?:=)*\s*eda"
+                "key": r"(?i)\s*job(?:_)*type\s*(?:=)*\s*eda",
+                "key": r"(?i)\s*eda2\s*(?:=)*\s*[1-9]0?",
             },
             terminate_on_match=True).get("key")
+
         if self.data.get("eda_job", []):
             self._parse_eda_energies()
         # If the calculation did not finish and no errors have been identified yet, check for other errors
