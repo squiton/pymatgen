@@ -314,7 +314,7 @@ class QCInput(MSONable):
 
     @staticmethod
     def find_sections(string):
-        patterns = {"sections": r"^\s*?\$([a-z]+)", "multiple_jobs": r"(@@@)"}
+        patterns = {"sections": r"^\s*?\$([A-Za-z0-9\_]+)", "multiple_jobs": r"(@@@)"}
         matches = read_pattern(string, patterns)
         # list of the sections present
         sections = [val[0] for val in matches["sections"]]
