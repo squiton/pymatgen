@@ -38,7 +38,7 @@ from math import pow, pi, asin, sqrt, exp, sin, cos, acos, fabs, atan2
 import numpy as np
 
 try:
-    from openbabel import openbabel as ob
+    import openbabel as ob
 except Exception:
     ob = None
 

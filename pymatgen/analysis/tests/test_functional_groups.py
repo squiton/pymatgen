@@ -15,8 +15,8 @@ test_dir = os.path.join(os.path.dirname(__file__), "..", "..", "..",
                         "test_files", "functional_groups")
 
 try:
-    from openbabel import openbabel as ob
-    from openbabel import pybel as pb
+    import openbabel as ob
+    import pybel as pb
     import networkx as nx
 except ImportError:
     pb = None
