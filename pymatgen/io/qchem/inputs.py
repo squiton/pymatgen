@@ -424,7 +424,7 @@ class QCInput(MSONable):
     @staticmethod
     def read_rem_frgm(string):
         header = r"^\s*\$rem\_frgm"
-        row = r"\s*([a-zA-Z\_]+)\s*=?\s*(\S+)"
+        row = r"\s*([a-zA-Z\_0-9]+)\s*=?\s*(\S+)"
         footer = r"^\s*\$end"
         rem_table = read_table_pattern(
             string,
