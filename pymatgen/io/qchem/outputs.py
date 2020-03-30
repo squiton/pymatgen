@@ -1173,24 +1173,19 @@ class QCOutput(MSONable):
                     "E_int":r"\s+E_int\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
                     "E_elec":r"\s+E_elec\s+\(ELEC\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
                     "E_pauli":r"\s+E_pauli\s+\(PAULI\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
-                    "E_disp":r"\s+E_disp\s+\(DISP\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)"
+                    "E_disp":r"\s+E_disp\s+\(DISP\)\s+\(kJ\/mol\)\s+=\s+([\d\-.]+)",
+                    
+                    #bonded eda values
+                    "E_prp":r"\s+E_preparation_energy\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_frz":r"\s+E_frz\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_sc":r"\s+E_spin_coupling\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_pol":r"\s+E_polarization\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_vct":r"\s+E_charge_transfer\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_int":r"\s+E_total_interaction\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_orbcon":r"\s+E_orbital_contraction\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                    "E_elecpol":r"\s+E_electric_polarization\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
                 },
-        )
-        try:
-            test = temp_dict["E_prp"][0][0]
-        except: #If doing bonded eda
-            temp_dict = read_pattern(
-                    self.text, {
-                        "E_prp":r"\s+E_preparation_energy\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                        "E_frz":r"\s+E_frz\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                        "E_sc":r"\s+E_spin_coupling\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                        "E_pol":r"\s+E_polarization\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                        "E_vct":r"\s+E_charge_transfer\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                        "E_int":r"\s+E_total_interaction\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                        "E_orbcon":r"\s+E_orbital_contraction\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                        "E_elecpol":r"\s+E_electric_polarization\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
-                    },
-            )           
+        )      
         self.data["EDA_data"] = {}
         for key in temp_dict:
             self.data["EDA_data"][key]=float(temp_dict.get(key)[0][0])
