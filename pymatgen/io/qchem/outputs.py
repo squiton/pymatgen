@@ -1183,6 +1183,7 @@ class QCOutput(MSONable):
                     self.text, {
                         "E_prp":r"\s+E_preparation_energy\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
                         "E_frz":r"\s+E_frz\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
+                        "E_sc":r"\s+E_spin_coupling\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
                         "E_pol":r"\s+E_polarization\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
                         "E_vct":r"\s+E_charge_transfer\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
                         "E_int":r"\s+E_total_interaction\s+\(kcal\/mol\)\s+=\s+([\d\-.]+)",
