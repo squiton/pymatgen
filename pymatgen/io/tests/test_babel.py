@@ -29,7 +29,7 @@ test_dir = os.path.join(os.path.dirname(__file__), "..", "..", "..",
                         "test_files")
 
 try:
-    import openbabel as ob
+    from openbabel import openbabel as ob
     import pybel as pb
 except ImportError:
     ob = None

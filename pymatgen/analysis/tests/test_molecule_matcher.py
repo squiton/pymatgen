@@ -10,7 +10,7 @@ from pymatgen.core.operations import SymmOp
 from pymatgen.core.structure import Molecule
 
 try:
-    import openbabel as ob
+    from openbabel import openbabel as ob
     from pymatgen.analysis.molecule_matcher import MoleculeMatcher
     from pymatgen.analysis.molecule_matcher import IsomorphismMolAtomMapper
     from pymatgen.analysis.molecule_matcher import InchiMolAtomMapper
