@@ -1,8 +1,8 @@
 Change log
 ==========
 
-v2020.4.29
-----------
-* Improved SQS caller. (@rwoodsrobinson)
-* VolumetricData speedup (@mturiansk)
-* Misc bug fixes
+v2020.11.11
+-----------
+* Bug fix for PhononBandStructureSymmLine. (@gpetretto)
+* Improved robustness in ABINIT input generation. (@gpetretto)
+* Other minor bug fixes.
