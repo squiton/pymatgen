@@ -67,8 +67,9 @@ class QCInput(MSONable):
         elif isinstance(self.molecule,list):
             if isinstance(self.molecule[0],Molecule) and isinstance(self.molecule[1],Molecule):
                 self.eda_job = True
-                if not (self.rem['eda2'] == '0' or 'eda2' not in self.rem.keys()):
-                    self.bonded_eda = True
+                if 'eda2' in self.rem.keys():
+                    if self.rem['eda2'] == '0'
+                        self.bonded_eda = True
         elif not isinstance(self.molecule, Molecule):
             raise ValueError(
                 "The molecule must either be the string 'read', a pymatgen Molecule object, or a list of Molecules for EDA"
